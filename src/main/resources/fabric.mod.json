@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "sakitus",
+	"version": "${version}",
+	"name": "SakitusMod",
+	"description": "This is a library for many of the PAVATUS mods.",
+	"authors": [
+		"PAVATUS"
+	],
+	"contact": {
+		"homepage": "https://pavatus.github.io",
+		"sources": "https://github.com/pavatus/sakitus/",
+		"issues": "https://github.com/pavatus/sakitus/issues"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/sakitus/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.pavatus.lib.SakitusMod"
+		]
+	},
+	"mixins": [
+		"sakitus.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"ait": "*"
+	}
+}
