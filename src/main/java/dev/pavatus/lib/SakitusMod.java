@@ -1,12 +1,14 @@
 package dev.pavatus.lib;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.minecraft.util.Identifier;
 
 import dev.pavatus.lib.register.Registries;
+import dev.pavatus.lib.util.ServerLifecycleHooks;
 
 public class SakitusMod implements ModInitializer {
     public static final String MOD_ID = "sakitus";
@@ -14,7 +16,11 @@ public class SakitusMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        Registries.getInstance().subscribe(Registries.InitType.COMMON);
+        ServerLifecycleHooks.init();
+
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+            Registries.getInstance().subscribe(Registries.InitType.COMMON);
+        });
     }
 
     public static Identifier id(String path) {
