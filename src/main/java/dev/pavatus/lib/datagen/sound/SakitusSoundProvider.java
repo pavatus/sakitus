@@ -2,6 +2,7 @@ package dev.pavatus.lib.datagen.sound;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.gson.JsonArray;
@@ -11,6 +12,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 
 /**
@@ -27,9 +29,19 @@ public class SakitusSoundProvider implements DataProvider {
     public void generateSoundsData(SoundBuilder builder) {
         sounds.forEach(builder::add);
     }
+    public void addSound(String name, SoundEvent event) {
+        sounds.put(name, new SoundEvent[]{event});
+    }
+    public void addSound(String name, SoundEvent... events) {
+        sounds.put(name, events);
+    }
 
     @Override
     public CompletableFuture<?> run(DataWriter writer) {
+        for (SoundEvent sound : getSoundsFromMod(dataOutput.getModId())) {
+            addSound(sound.getId().getPath(), sound);
+        }
+
         HashMap<String, SoundEvent[]> soundEventsHashMap = new HashMap<>();
 
         generateSoundsData(((soundName, soundEvents) -> {
@@ -77,5 +89,9 @@ public class SakitusSoundProvider implements DataProvider {
 
         soundEventJsonObject.add("sounds", soundsJsonObject);
         return soundEventJsonObject;
+    }
+
+    public static List<SoundEvent> getSoundsFromMod(String modid) {
+        return Registries.SOUND_EVENT.stream().filter(sound -> sound.getId().getNamespace().equals(modid)).toList();
     }
 }
