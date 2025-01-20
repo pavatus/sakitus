@@ -14,6 +14,7 @@ public class Registries {
 
     private static Registries INSTANCE;
     private final List<Registry> registries = new ArrayList<>();
+    private final List<Registry> clientRegistries = new ArrayList<>();
 
     private Registries() {
         this.onCommonInit();
@@ -26,13 +27,19 @@ public class Registries {
         RegistryEvents.INIT.invoker().init(this, false);
     }
 
-    private void onClientInit() { // todo client registries using the init event dont fire common as client is loaded after common
+    private void onClientInit() {
         RegistryEvents.INIT.invoker().init(this, true);
     }
 
     public void subscribe(InitType env) {
         if (env == InitType.CLIENT && FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT)
             throw new UnsupportedOperationException("Cannot call onInitializeClient while not running a client!");
+
+        if (env == InitType.CLIENT) {
+            for (Registry registry : clientRegistries) {
+                InitType.COMMON.init(registry); // also call common init for client registries, since client only registries are loaded after the common is fired
+            }
+        }
 
         for (Registry registry : registries) {
             env.init(registry);
@@ -41,9 +48,16 @@ public class Registries {
         RegistryEvents.SUBSCRIBE.invoker().subscribe(this, env);
     }
 
-    public Registry register(Registry registry) {
+    public Registry register(Registry registry, boolean isClient) {
         registries.add(registry);
+
+        if (isClient)
+            clientRegistries.add(registry);
+
         return registry;
+    }
+    public Registry register(Registry registry) {
+        return register(registry, false);
     }
 
     public static Registries getInstance() {
