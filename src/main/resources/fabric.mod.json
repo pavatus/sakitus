@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"dev.pavatus.lib.SakitusMod"
+		],
+		"client": [
+			"dev.pavatus.lib.client.SakitusModClient"
 		]
 	},
 	"mixins": [
