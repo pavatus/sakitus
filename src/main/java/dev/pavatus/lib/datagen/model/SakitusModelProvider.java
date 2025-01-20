@@ -1,6 +1,9 @@
 package dev.pavatus.lib.datagen.model;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Optional;
+import java.util.Queue;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -19,46 +22,50 @@ import dev.pavatus.lib.util.ReflectionUtil;
 public class SakitusModelProvider extends FabricModelProvider {
     protected final String modid;
     protected final FabricDataOutput output;
-    protected Class<? extends BlockContainer> blockClass;
-    protected Class<? extends ItemContainer> itemClass;
+    protected Queue<Class<? extends BlockContainer>> blockClass;
+    protected Queue<Class<? extends ItemContainer>> itemClass;
 
     public SakitusModelProvider(FabricDataOutput output) {
         super(output);
 
         this.modid = output.getModId();
         this.output = output;
+        this.blockClass = new LinkedList<>();
+        this.itemClass = new LinkedList<>();
     }
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        if (blockClass != null) {
-            ReflectionUtil.getAnnotatedValues(blockClass, Block.class, AutomaticModel.class, false).keySet().forEach(generator::registerSimpleCubeAll);
-        }
+        this.blockClass.forEach(clazz -> ReflectionUtil.getAnnotatedValues(clazz, Block.class, AutomaticModel.class, false).keySet().forEach(generator::registerSimpleCubeAll));
     }
 
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
-        if (blockClass != null) {
-            ReflectionUtil.getAnnotatedValues(blockClass, Block.class, AutomaticModel.class, false).forEach((block, annotation) -> {
+        this.blockClass.forEach(clazz -> {
+            ReflectionUtil.getAnnotatedValues(clazz, Block.class, AutomaticModel.class, false).forEach((block, annotation) -> {
                 if (annotation.orElseThrow().justItem()) {
                     registerItem(generator, block.asItem(), modid);
                 }
             });
-        }
+        });
 
-        if (itemClass != null) {
-            ReflectionUtil.getAnnotatedValues(itemClass, Item.class, AutomaticModel.class, false).forEach((item, annotation) -> {
+        this.itemClass.forEach(clazz -> {
+            ReflectionUtil.getAnnotatedValues(clazz, Item.class, AutomaticModel.class, false).forEach((item, annotation) -> {
                 registerItem(generator, item, modid);
             });
-        }
+        });
     }
 
-    public SakitusModelProvider withBlocks(Class<? extends BlockContainer> blockClass) {
-        this.blockClass = blockClass;
+    public SakitusModelProvider withBlocks(Class<? extends BlockContainer>... blockClass) {
+        // add all to queue
+        this.blockClass.addAll(Arrays.asList(blockClass));
+
         return this;
     }
-    public SakitusModelProvider withItems(Class<? extends ItemContainer> itemClass) {
-        this.itemClass = itemClass;
+    public SakitusModelProvider withItems(Class<? extends ItemContainer>... itemClass) {
+        // add all to queue
+        this.itemClass.addAll(Arrays.asList(itemClass));
+
         return this;
     }
 

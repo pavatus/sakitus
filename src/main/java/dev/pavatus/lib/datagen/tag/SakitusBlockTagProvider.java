@@ -1,7 +1,6 @@
 package dev.pavatus.lib.datagen.tag;
 
-import java.util.HashMap;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -16,17 +15,19 @@ import dev.pavatus.lib.datagen.util.PickaxeMineable;
 import dev.pavatus.lib.util.ReflectionUtil;
 
 public class SakitusBlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    protected Class<? extends BlockContainer> blockClass;
+    protected Queue<Class<? extends BlockContainer>> blockClass;
 
     public SakitusBlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, registriesFuture);
+
+        this.blockClass = new LinkedList<>();
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        if (blockClass != null) {
+        this.blockClass.forEach(clazz -> {
             FabricTagBuilder pickaxeBuilder = getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE);
-            HashMap<Block, Optional<PickaxeMineable>> pickaxeBlocks = ReflectionUtil.getAnnotatedValues(blockClass, Block.class, PickaxeMineable.class, false);
+            HashMap<Block, Optional<PickaxeMineable>> pickaxeBlocks = ReflectionUtil.getAnnotatedValues(clazz, Block.class, PickaxeMineable.class, false);
 
             for (Block block : pickaxeBlocks.keySet()) {
                 pickaxeBuilder.add(block);
@@ -36,11 +37,13 @@ public class SakitusBlockTagProvider extends FabricTagProvider.BlockTagProvider 
                     getOrCreateTagBuilder(annotation.tool().tag).add(block);
                 }
             }
-        }
+        });
     }
 
-    public SakitusBlockTagProvider withBlocks(Class<? extends BlockContainer> blockClass) {
-        this.blockClass = blockClass;
+    public SakitusBlockTagProvider withBlocks(Class<? extends BlockContainer>... blockClass) {
+        // add all to queue
+        this.blockClass.addAll(Arrays.asList(blockClass));
+
         return this;
     }
 }
