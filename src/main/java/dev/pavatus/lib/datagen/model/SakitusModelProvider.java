@@ -40,7 +40,7 @@ public class SakitusModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerator generator) {
         if (blockClass != null) {
             ReflectionUtil.getAnnotatedValues(blockClass, Block.class, AutomaticModel.class, false).forEach((block, annotation) -> {
-                if (annotation.justItem()) {
+                if (annotation.orElseThrow().justItem()) {
                     registerItem(generator, block.asItem(), modid);
                 }
             });

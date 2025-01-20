@@ -1,6 +1,7 @@
 package dev.pavatus.lib.datagen.tag;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -25,11 +26,11 @@ public class SakitusBlockTagProvider extends FabricTagProvider.BlockTagProvider 
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         if (blockClass != null) {
             FabricTagBuilder pickaxeBuilder = getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE);
-            HashMap<Block, PickaxeMineable> pickaxeBlocks = ReflectionUtil.getAnnotatedValues(blockClass, Block.class, PickaxeMineable.class, false);
+            HashMap<Block, Optional<PickaxeMineable>> pickaxeBlocks = ReflectionUtil.getAnnotatedValues(blockClass, Block.class, PickaxeMineable.class, false);
 
             for (Block block : pickaxeBlocks.keySet()) {
                 pickaxeBuilder.add(block);
-                PickaxeMineable annotation = pickaxeBlocks.get(block);
+                PickaxeMineable annotation = pickaxeBlocks.get(block).orElseThrow();
 
                 if (annotation.tool() != PickaxeMineable.Tool.NONE) {
                     getOrCreateTagBuilder(annotation.tool().tag).add(block);
