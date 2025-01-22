@@ -75,7 +75,7 @@ public abstract class SimpleDatapackRegistry<T extends Identifiable> extends Dat
 
     @Override
     public void syncToEveryone() {
-        if (!this.sync || ServerLifecycleHooks.get().getOverworld() == null)
+        if (!this.sync || ServerLifecycleHooks.get() == null)
             return;
 
         super.syncToEveryone();
