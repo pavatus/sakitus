@@ -1,7 +1,9 @@
 package dev.pavatus.lib.register;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import net.fabricmc.api.EnvType;
@@ -15,12 +17,13 @@ public class Registries {
     private static Registries INSTANCE;
     private final List<Registry> registries = new ArrayList<>();
     private final List<Registry> clientRegistries = new ArrayList<>();
+    private final Set<InitType> initialized = new HashSet<>();
 
     private Registries() {
-        this.onCommonInit();
-
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            this.onClientInit();
+//        this.onCommonInit();
+//
+//        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+//            this.onClientInit();
     }
 
     private void onCommonInit() {
@@ -35,10 +38,13 @@ public class Registries {
         if (env == InitType.CLIENT && FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT)
             throw new UnsupportedOperationException("Cannot call onInitializeClient while not running a client!");
 
+        if (initialized.contains(env))
+            return;
+
+        RegistryEvents.INIT.invoker().init(this, env == InitType.CLIENT);
+
         if (env == InitType.CLIENT) {
-            for (Registry registry : clientRegistries) {
-                InitType.COMMON.init(registry); // also call common init for client registries, since client only registries are loaded after the common is fired
-            }
+            this.subscribe(InitType.COMMON);
         }
 
         for (Registry registry : registries) {
@@ -46,6 +52,8 @@ public class Registries {
         }
 
         RegistryEvents.SUBSCRIBE.invoker().subscribe(this, env);
+
+        initialized.add(env);
     }
 
     public Registry register(Registry registry, boolean isClient) {

@@ -7,6 +7,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import dev.pavatus.lib.SakitusMod;
 import dev.pavatus.lib.api.Identifiable;
 import dev.pavatus.lib.register.Registry;
 import dev.pavatus.lib.util.ServerLifecycleHooks;
@@ -83,6 +84,11 @@ public abstract class DatapackRegistry<T extends Identifiable> implements Regist
     }
 
     public void syncToEveryone() {
+        if (ServerLifecycleHooks.get() == null) {
+            SakitusMod.LOGGER.warn("ServerLifecycleHooks is null, cannot sync");
+            return;
+        }
+
         for (ServerPlayerEntity player : ServerLifecycleHooks.get().getPlayerManager().getPlayerList()) {
             this.syncToClient(player);
         }
