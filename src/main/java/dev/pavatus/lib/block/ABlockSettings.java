@@ -201,15 +201,27 @@ public class ABlockSettings extends FabricBlockSettings {
         return (ABlockSettings) super.notSolid();
     }
 
+    /**
+     * This will decide if the block can be pushed or not or maybe break :shrug:
+     */
+
     @Override
     public ABlockSettings pistonBehavior(PistonBehavior pistonBehavior) {
         return (ABlockSettings) super.pistonBehavior(pistonBehavior);
     }
 
+    /**
+     * When a noteblock is placed above this block this will choose what instrument will play
+     */
+
     @Override
     public ABlockSettings instrument(Instrument instrument) {
         return (ABlockSettings) super.instrument(instrument);
     }
+
+    /**
+     * When a block is right-clicked on this enabled it will replace it in its position
+     */
 
     @Override
     public ABlockSettings replaceable() {
@@ -221,10 +233,18 @@ public class ABlockSettings extends FabricBlockSettings {
         return (ABlockSettings) super.lightLevel(lightLevel);
     }
 
+    /**
+     * When placed this will choose the color it will display on the map
+     */
+
     @Override
     public ABlockSettings luminance(int luminance) {
         return (ABlockSettings) super.luminance(luminance);
     }
+
+    /**
+     * When the block is broken in the survival, this will choose which item will drop
+     */
 
     @Override
     public ABlockSettings drops(Identifier dropTableId) {
@@ -240,6 +260,10 @@ public class ABlockSettings extends FabricBlockSettings {
     public ABlockSettings materialColor(DyeColor color) {
         return (ABlockSettings) super.materialColor(color);
     }
+
+    /**
+     * When placed this will choose the color it will display on the map
+     */
 
     @Override
     public ABlockSettings mapColor(DyeColor color) {

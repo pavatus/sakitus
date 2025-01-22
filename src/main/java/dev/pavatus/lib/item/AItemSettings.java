@@ -19,6 +19,10 @@ public class AItemSettings extends FabricItemSettings {
         return this;
     }
 
+    /**
+     * Which armor slot can the item go in.
+     */
+
     @Override
     public AItemSettings equipmentSlot(EquipmentSlotProvider equipmentSlotProvider) {
         return (AItemSettings) super.equipmentSlot(equipmentSlotProvider);
@@ -33,6 +37,10 @@ public class AItemSettings extends FabricItemSettings {
     public AItemSettings food(FoodComponent foodComponent) {
         return (AItemSettings) super.food(foodComponent);
     }
+
+    /**
+     * Allows how much it can be stacked together in one slot (max: 64)
+     */
 
     @Override
     public AItemSettings maxCount(int maxCount) {
@@ -49,15 +57,27 @@ public class AItemSettings extends FabricItemSettings {
         return (AItemSettings) super.maxDamage(maxDamage);
     }
 
+    /**
+     * When crafting this will leave over inside the crafting table gui (like buckets in cake).
+     */
+
     @Override
     public AItemSettings recipeRemainder(Item recipeRemainder) {
         return (AItemSettings) super.recipeRemainder(recipeRemainder);
     }
 
+    /**
+     * This changes the color in the item name
+     */
+
     @Override
     public AItemSettings rarity(Rarity rarity) {
         return (AItemSettings) super.rarity(rarity);
     }
+
+    /**
+     * When dropped in the fire block it won't despawn
+     */
 
     @Override
     public AItemSettings fireproof() {
@@ -69,6 +89,9 @@ public class AItemSettings extends FabricItemSettings {
         return (AItemSettings) super.requires(features);
     }
 
+    /**
+     * The item group this item should appear in
+     */
     public ItemGroup group() {
         return group;
     }
