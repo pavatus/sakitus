@@ -181,10 +181,18 @@ public class ABlockSettings extends FabricBlockSettings {
         return (ABlockSettings) super.mapColor(mapColorProvider);
     }
 
+    /**
+     * When dropped in the fire block it won't despawn
+     */
+
     @Override
     public ABlockSettings burnable() {
         return (ABlockSettings) super.burnable();
     }
+
+    /**
+     * This parameter will allow if the block is fluid (water)
+     */
 
     @Override
     public ABlockSettings liquid() {
@@ -195,6 +203,10 @@ public class ABlockSettings extends FabricBlockSettings {
     public ABlockSettings solid() {
         return (ABlockSettings) super.solid();
     }
+
+    /**
+     * This parameter will allow if the player can walk through it (like grass)
+     */
 
     @Override
     public ABlockSettings notSolid() {
@@ -228,13 +240,17 @@ public class ABlockSettings extends FabricBlockSettings {
         return (ABlockSettings) super.replaceable();
     }
 
+    /**
+     * This parameter will control how much the block emits light like a lamp (0-15)
+     */
+
     @Override
     public ABlockSettings lightLevel(int lightLevel) {
         return (ABlockSettings) super.lightLevel(lightLevel);
     }
 
     /**
-     * When placed this will choose the color it will display on the map
+     * This parameter will control how much the block emits light like a lamp (0-15)
      */
 
     @Override
