@@ -30,7 +30,7 @@ public class DirectedGlobalPos {
     private final BlockPos pos;
     private final byte rotation;
 
-    private DirectedGlobalPos(RegistryKey<World> dimension, BlockPos pos, byte rotation) {
+    protected DirectedGlobalPos(RegistryKey<World> dimension, BlockPos pos, byte rotation) {
         this.dimension = dimension;
         this.pos = pos;
 
