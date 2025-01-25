@@ -49,6 +49,9 @@ public class DirectedGlobalPos {
     public DirectedGlobalPos offset(int x, int y, int z) {
         return DirectedGlobalPos.create(this.dimension, this.pos.add(x, y, z), this.rotation);
     }
+    public DirectedGlobalPos offset(Direction dir) {
+        return DirectedGlobalPos.create(this.dimension, this.pos.offset(dir), this.rotation);
+    }
 
     public DirectedGlobalPos rotation(byte rotation) {
         return DirectedGlobalPos.create(this.dimension, this.pos, rotation);
@@ -74,12 +77,15 @@ public class DirectedGlobalPos {
         return this.rotation;
     }
     public float getRotationDegrees() {
-        return RotationPropertyHelper.toDegrees(this.getRotation());
+        return RotationPropertyHelper.toDegrees(this.getRotation()) - 45; // for some reason
+    }
+    public Direction getRotationDirection() {
+        return Direction.fromRotation(this.getRotationDegrees());
     }
 
     public Vec3i getVector() {
         return switch (this.rotation) {
-	        case 0 -> Direction.NORTH.getVector();
+            case 0 -> Direction.NORTH.getVector();
             case 1, 2, 3 -> Direction.NORTH.getVector().add(Direction.EAST.getVector());
             case 4 -> Direction.EAST.getVector();
             case 5, 6, 7 -> Direction.EAST.getVector().add(Direction.SOUTH.getVector());
@@ -87,7 +93,7 @@ public class DirectedGlobalPos {
             case 9, 10, 11 -> Direction.SOUTH.getVector().add(Direction.WEST.getVector());
             case 12 -> Direction.WEST.getVector();
             case 13, 14, 15 -> Direction.NORTH.getVector().add(Direction.SOUTH.getVector());
-	        default -> new Vec3i(0, 0, 0);
+            default -> new Vec3i(0, 0, 0);
         };
     }
 
