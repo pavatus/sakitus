@@ -15,6 +15,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.RotationPropertyHelper;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
@@ -72,11 +73,13 @@ public class DirectedGlobalPos {
     public byte getRotation() {
         return this.rotation;
     }
+    public float getRotationDegrees() {
+        return RotationPropertyHelper.toDegrees(this.getRotation());
+    }
 
     public Vec3i getVector() {
         return switch (this.rotation) {
-            default -> new Vec3i(0, 0, 0);
-            case 0 -> Direction.NORTH.getVector();
+	        case 0 -> Direction.NORTH.getVector();
             case 1, 2, 3 -> Direction.NORTH.getVector().add(Direction.EAST.getVector());
             case 4 -> Direction.EAST.getVector();
             case 5, 6, 7 -> Direction.EAST.getVector().add(Direction.SOUTH.getVector());
@@ -84,6 +87,7 @@ public class DirectedGlobalPos {
             case 9, 10, 11 -> Direction.SOUTH.getVector().add(Direction.WEST.getVector());
             case 12 -> Direction.WEST.getVector();
             case 13, 14, 15 -> Direction.NORTH.getVector().add(Direction.SOUTH.getVector());
+	        default -> new Vec3i(0, 0, 0);
         };
     }
 
@@ -140,6 +144,44 @@ public class DirectedGlobalPos {
     // TODO: make directedglobalpos use directedblockpos
     public DirectedBlockPos toPos() {
         return DirectedBlockPos.create(this.pos, this.rotation);
+    }
+
+    public static int getNextGeneralizedRotation(int rotation) {
+        return (rotation + 2) % 16;
+    }
+
+    public static int getPreviousGeneralizedRotation(int rotation) {
+        return (rotation - 2) % 16;
+    }
+
+    public static byte getGeneralizedRotation(int rotation) {
+        if (rotation % 2 != 0 && rotation < 15)
+            return (byte) (rotation + 1);
+
+        if (rotation == 15)
+            return 0;
+
+        return (byte) rotation;
+    }
+    public static byte getGeneralizedRotation(Direction dir) {
+        return getGeneralizedRotation(RotationPropertyHelper.fromDirection(dir));
+    }
+
+    public static String rotationForArrow(int currentRot) {
+        return switch (currentRot) {
+            case 1, 2, 3 -> "↗";
+            case 4 -> "→";
+            case 5, 6, 7 -> "↘";
+            case 8 -> "↓";
+            case 9, 10, 11 -> "↙";
+            case 12 -> "←";
+            case 13, 14, 15 -> "↖";
+            default -> "↑";
+        };
+    }
+
+    public static byte wrap(byte value, byte max) {
+        return (byte) ((value % max + max) % max);
     }
 
     public static Object serializer() {
