@@ -11,7 +11,7 @@ public class AItemGroup extends ItemGroup {
 
     private final Identifier id;
 
-    AItemGroup(Identifier id, Row row, int column, Type type, Text displayName, Supplier<ItemStack> iconSupplier, EntryCollector entryCollector) {
+    protected AItemGroup(Identifier id, Row row, int column, Type type, Text displayName, Supplier<ItemStack> iconSupplier, EntryCollector entryCollector) {
         super(row, column, type, displayName, iconSupplier, entryCollector);
 
         this.id = id;
