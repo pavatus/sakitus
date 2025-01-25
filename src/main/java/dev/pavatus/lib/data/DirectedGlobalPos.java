@@ -49,6 +49,9 @@ public class DirectedGlobalPos {
     public DirectedGlobalPos offset(int x, int y, int z) {
         return DirectedGlobalPos.create(this.dimension, this.pos.add(x, y, z), this.rotation);
     }
+    public DirectedGlobalPos offset(Direction dir) {
+        return DirectedGlobalPos.create(this.dimension, this.pos.offset(dir), this.rotation);
+    }
 
     public DirectedGlobalPos rotation(byte rotation) {
         return DirectedGlobalPos.create(this.dimension, this.pos, rotation);
@@ -74,7 +77,10 @@ public class DirectedGlobalPos {
         return this.rotation;
     }
     public float getRotationDegrees() {
-        return RotationPropertyHelper.toDegrees(this.getRotation());
+        return RotationPropertyHelper.toDegrees(this.getRotation()) - 45; // for some reason
+    }
+    public Direction getRotationDirection() {
+        return Direction.fromRotation(this.getRotationDegrees());
     }
 
     public Vec3i getVector() {
