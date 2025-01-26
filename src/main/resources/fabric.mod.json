@@ -34,5 +34,6 @@
 	},
 	"suggests": {
 		"ait": "*"
-	}
+	},
+	"accessWidener": "sakitus.accesswidener"
 }
