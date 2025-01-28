@@ -77,7 +77,7 @@ public class DirectedGlobalPos {
         return this.rotation;
     }
     public float getRotationDegrees() {
-        return RotationPropertyHelper.toDegrees(this.getRotation()) - 45; // for some reason
+        return RotationPropertyHelper.toDegrees(this.getRotation());
     }
     public Direction getRotationDirection() {
         return Direction.fromRotation(this.getRotationDegrees());
