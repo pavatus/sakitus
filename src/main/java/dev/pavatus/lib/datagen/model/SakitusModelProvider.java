@@ -27,7 +27,7 @@ public class SakitusModelProvider extends FabricModelProvider {
 
         this.modid = output.getModId();
         this.output = output;
-        this.blockClass = new LinkedList<>();
+        this.blockClass = new ArrayList<>();
         this.itemClass = new LinkedList<>();
     }
 
