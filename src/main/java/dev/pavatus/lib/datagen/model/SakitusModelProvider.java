@@ -1,9 +1,6 @@
 package dev.pavatus.lib.datagen.model;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -22,7 +19,7 @@ import dev.pavatus.lib.util.ReflectionUtil;
 public class SakitusModelProvider extends FabricModelProvider {
     protected final String modid;
     protected final FabricDataOutput output;
-    protected Queue<Class<? extends BlockContainer>> blockClass;
+    protected List<Class<? extends BlockContainer>> blockClass;
     protected Queue<Class<? extends ItemContainer>> itemClass;
 
     public SakitusModelProvider(FabricDataOutput output) {
