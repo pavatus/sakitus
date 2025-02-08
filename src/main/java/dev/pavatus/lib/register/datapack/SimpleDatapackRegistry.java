@@ -41,13 +41,21 @@ public abstract class SimpleDatapackRegistry<T extends Identifiable> extends Dat
     }
 
     protected SimpleDatapackRegistry(Function<InputStream, T> deserializer, Codec<T> codec, String packet, String name,
-            boolean sync) {
-        this(deserializer, codec, SakitusMod.id("sync_" + packet), SakitusMod.id(name),
+            boolean sync, String modid) {
+        this(deserializer, codec, new Identifier(modid, "sync_" + packet), new Identifier(modid, name),
                 sync);
     }
 
-    protected SimpleDatapackRegistry(Function<InputStream, T> deserializer, Codec<T> codec, String name, boolean sync) {
-        this(deserializer, codec, name, name, sync);
+    protected SimpleDatapackRegistry(Function<InputStream, T> deserializer, Codec<T> codec, String name, boolean sync, String modid) {
+        this(deserializer, codec, name, name, sync, modid);
+    }
+
+    /**
+     * @deprecated Use {@link #SimpleDatapackRegistry(Function, Codec, String, boolean, String)} instead and provide your own modid
+     */
+    @Deprecated(forRemoval = true, since = "1.0.11")
+    protected SimpleDatapackRegistry(Function<InputStream, T> deserializer, Codec<T> codec, String name) {
+        this(deserializer, codec, name, name, true, SakitusMod.MOD_ID);
     }
 
     public void onClientInit() {
