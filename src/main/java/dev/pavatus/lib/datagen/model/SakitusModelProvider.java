@@ -33,7 +33,13 @@ public class SakitusModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        this.blockClass.forEach(clazz -> ReflectionUtil.getAnnotatedValues(clazz, Block.class, AutomaticModel.class, false).keySet().forEach(generator::registerSimpleCubeAll));
+        this.blockClass.forEach(clazz -> {
+            ReflectionUtil.getAnnotatedValues(clazz, Block.class, AutomaticModel.class, false).forEach((block, annotation) -> {
+                if (!annotation.orElseThrow().justItem()) {
+                    generator.registerSimpleCubeAll(block);
+                }
+            });
+        });
     }
 
     @Override
