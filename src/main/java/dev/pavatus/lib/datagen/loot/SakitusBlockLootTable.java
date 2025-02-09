@@ -17,7 +17,7 @@ import dev.pavatus.lib.util.ReflectionUtil;
 public class SakitusBlockLootTable extends FabricBlockLootTableProvider {
     protected Queue<Class<? extends BlockContainer>> blockClass;
 
-    protected SakitusBlockLootTable(FabricDataOutput dataOutput) {
+    public SakitusBlockLootTable(FabricDataOutput dataOutput) {
         super(dataOutput);
 
         this.blockClass = new LinkedList<>();
