@@ -26,7 +26,7 @@ public class SakitusBlockLootTable extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         // automatic self block drops
-        this.blockClass.forEach(clazz -> ReflectionUtil.getAnnotatedValues(clazz, Block.class, NoBlockDrop.class, true).keySet().forEach(this::addDrop));
+        this.blockClass.forEach(clazz -> ReflectionUtil.getAnnotatedValues(clazz, Block.class, NoBlockDrop.class, true).keySet().forEach(this::process));
     }
 
     public SakitusBlockLootTable withBlocks(Class<? extends BlockContainer>... blockClass) {
@@ -34,5 +34,10 @@ public class SakitusBlockLootTable extends FabricBlockLootTableProvider {
         this.blockClass.addAll(Arrays.asList(blockClass));
 
         return this;
+    }
+
+    protected void process(Block block) {
+        this.addDrop(block);
+        this.addDropWithSilkTouch(block);
     }
 }
