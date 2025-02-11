@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.featuretoggle.FeatureFlag;
 import net.minecraft.util.Rarity;
 
@@ -16,6 +18,10 @@ public class AItemSettings extends FabricItemSettings {
 
     public AItemSettings group(ItemGroup group) {
         this.group = group;
+        return this;
+    }
+    public AItemSettings group(RegistryKey<ItemGroup> group) {
+        this.group = Registries.ITEM_GROUP.get(group);
         return this;
     }
 
