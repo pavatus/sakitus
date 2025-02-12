@@ -1,4 +1,4 @@
-![Logo](https://github.com/amblelabs/modkit/blob/main/src/main/resources/assets/kit_logo.png?raw=true)
+<img src="https://github.com/amblelabs/modkit/blob/main/src/main/resources/assets/amblekit/icon.png?raw=true" width="256" height="256">
 
 # Amble Kit Library
 ## This a libary mod that can be used for code simplifying for developing on Fabric
@@ -30,3 +30,9 @@ By simply creating an instance of `AmbleLanguageProvider` and passing in your `B
 There are more datagen utilities akin to this.
 
 ### Much more!
+
+### For your readmes
+
+<a href="https://modrinth.com/project/amblekit"><img src="https://github.com/amblelabs/modkit/blob/main/promo/required.png?raw=true" width="512" height="86"></a>
+
+<img src="https://github.com/amblelabs/modkit/blob/main/promo/header.png?raw=true" width="328" height="86">
