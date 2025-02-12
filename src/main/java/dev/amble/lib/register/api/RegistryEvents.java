@@ -3,15 +3,22 @@ package dev.amble.lib.register.api;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
-import dev.amble.lib.register.Registries;
+import dev.amble.lib.register.AmbleRegistries;
+import dev.amble.lib.register.Registry;
 
 public final class RegistryEvents {
+    /**
+     * @deprecated This is now automatically called
+     * @see AmbleRegistries#register(Registry)
+     */
+    @Deprecated(forRemoval = true, since = "1.1.1")
     public static final Event<Subscribe> SUBSCRIBE = EventFactory.createArrayBacked(Subscribe.class, callbacks -> (registries, env) -> {
         for (Subscribe callback : callbacks) {
             callback.subscribe(registries, env);
         }
     });
 
+    @Deprecated(forRemoval = true, since = "1.1.1")
     public static final Event<Init> INIT = EventFactory.createArrayBacked(Init.class, callbacks -> (registries, isClient) -> {
         for (Init callback : callbacks) {
             callback.init(registries, isClient);
@@ -23,7 +30,7 @@ public final class RegistryEvents {
      */
     @FunctionalInterface
     public interface Subscribe {
-        void subscribe(Registries registries, Registries.InitType env);
+        void subscribe(AmbleRegistries registries, AmbleRegistries.InitType env);
     }
 
     /**
@@ -31,6 +38,6 @@ public final class RegistryEvents {
      */
     @FunctionalInterface
     public interface Init {
-        void init(Registries registries, boolean isClient);
+        void init(AmbleRegistries registries, boolean isClient);
     }
 }

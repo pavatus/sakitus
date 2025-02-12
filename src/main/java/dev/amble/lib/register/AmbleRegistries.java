@@ -7,70 +7,79 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 
-import dev.amble.lib.register.api.RegistryEvents;
+import dev.amble.lib.AmbleKit;
+
 
 // TODO: move all registries over to here
-public class Registries {
+public class AmbleRegistries {
 
-    private static Registries INSTANCE;
+    private static AmbleRegistries INSTANCE;
     private final List<Registry> registries = new ArrayList<>();
-    private final List<Registry> clientRegistries = new ArrayList<>();
     private final Set<InitType> initialized = new HashSet<>();
 
-    private Registries() {
-//        this.onCommonInit();
-//
-//        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-//            this.onClientInit();
+    static {
+        ServerLifecycleEvents.SERVER_STARTING.register((server) -> {
+            AmbleRegistries.getInstance().subscribe(InitType.COMMON);
+            AmbleRegistries.getInstance().subscribe(InitType.SERVER);
+        });
+
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            registerClientStart();
+        }
     }
 
-    private void onCommonInit() {
-        RegistryEvents.INIT.invoker().init(this, false);
+    @Environment(EnvType.CLIENT)
+    private static void registerClientStart() {
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            AmbleRegistries.getInstance().subscribe(InitType.CLIENT);
+        });
     }
 
-    private void onClientInit() {
-        RegistryEvents.INIT.invoker().init(this, true);
+    private AmbleRegistries() {
+
     }
 
-    public void subscribe(InitType env) {
+
+    protected void subscribe(InitType env) {
         if (env == InitType.CLIENT && FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT)
             throw new UnsupportedOperationException("Cannot call onInitializeClient while not running a client!");
 
         if (initialized.contains(env))
             return;
 
-        RegistryEvents.INIT.invoker().init(this, env == InitType.CLIENT);
-
         if (env == InitType.CLIENT) {
             this.subscribe(InitType.COMMON);
         }
+
+        AmbleKit.LOGGER.info("Initializing {} side registries..", env);
 
         for (Registry registry : registries) {
             env.init(registry);
         }
 
-        RegistryEvents.SUBSCRIBE.invoker().subscribe(this, env);
-
         initialized.add(env);
     }
 
-    public Registry register(Registry registry, boolean isClient) {
+    public Registry register(Registry registry) {
         registries.add(registry);
-
-        if (isClient)
-            clientRegistries.add(registry);
 
         return registry;
     }
-    public Registry register(Registry registry) {
-        return register(registry, false);
+
+    public void registerAll(Registry... registries) {
+        for (Registry registry : registries) {
+            register(registry);
+        }
     }
 
-    public static Registries getInstance() {
+    public static AmbleRegistries getInstance() {
         if (INSTANCE == null)
-            INSTANCE = new Registries();
+            INSTANCE = new AmbleRegistries();
 
         return INSTANCE;
     }
