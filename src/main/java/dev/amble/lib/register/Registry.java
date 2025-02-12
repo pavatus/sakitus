@@ -1,6 +1,5 @@
 package dev.amble.lib.register;
 
-import net.minecraft.registry.Registries;
 
 public interface Registry {
     /**
