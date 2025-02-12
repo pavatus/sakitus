@@ -100,7 +100,7 @@ public abstract class DatapackRegistry<T extends Identifiable> implements Regist
 
     @Override
     public void onCommonInit() {
-        this.clearCache();
+        // this.clearCache();
     }
 
     public void clearCache() {

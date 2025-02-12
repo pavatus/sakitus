@@ -109,7 +109,7 @@ public abstract class SimpleDatapackRegistry<T extends Identifiable> extends Dat
         if (!this.sync)
             return;
 
-        REGISTRY.clear();
+        // this.clearCache();
         this.defaults();
         int size = buf.readInt();
 
@@ -133,7 +133,7 @@ public abstract class SimpleDatapackRegistry<T extends Identifiable> extends Dat
 
     @Override
     public void reload(ResourceManager manager) {
-        this.clearCache();
+        // this.clearCache();
         this.defaults();
 
         for (Identifier id : manager
