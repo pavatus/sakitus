@@ -16,9 +16,7 @@ We provide a custom class called `SimpleDatapackRegistry`
 
 This allows your own classes to be read and registered straight from datapacks with ease!
 
-For your registry to be recognised by the kit, you need to implement `SakitusModInitializer` ( Fabric Endpoint )
-
-Then, listen to the `RegistryEvents.INIT.register` event and call `registries.register(MyRegistry.getInstanace())` and... Done! ( SUBJECT TO IMPROVEMENT )
+For the kit to recognise your registry, in your mods `#onInitialize` method, you need to call `register` on your instance OR `AmbleRegistries.register(MyRegistry.getInstance()))`
 
 ### Data Generation
 We utilise annotations and the previously mentioned registry containers to automatically generate many features.

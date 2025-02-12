@@ -1,5 +1,7 @@
 package dev.amble.lib.register;
 
+import net.minecraft.registry.Registries;
+
 public interface Registry {
     /**
      * This is called by both
@@ -18,5 +20,9 @@ public interface Registry {
      * This is called once when the server is starting
      */
     default void onServerInit() {
+    }
+
+    default void register() {
+        AmbleRegistries.getInstance().register(this);
     }
 }
