@@ -80,6 +80,12 @@ public class DirectedBlockPos {
         };
     }
 
+    public DistanceInformation distanceTo(DirectedBlockPos other) {
+        double distance = Math.sqrt(this.pos.getSquaredDistance(other.pos));
+        boolean rotChange = this.rotation != other.rotation;
+        return new DistanceInformation(distance, false, rotChange);
+    }
+
     public boolean equals(Object o) {
         if (this == o)
             return true;
