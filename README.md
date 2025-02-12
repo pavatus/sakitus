@@ -1,3 +1,5 @@
+![Logo](https://github.com/amblelabs/modkit/blob/main/src/main/resources/assets/kit_logo.png?raw=true)
+
 # Amble Kit Library
 ## This a libary mod that can be used for code simplifying for developing on Fabric
 ***This is used in many of our Fabric mods***
