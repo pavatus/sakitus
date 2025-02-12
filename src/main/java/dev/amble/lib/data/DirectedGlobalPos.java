@@ -97,6 +97,14 @@ public class DirectedGlobalPos {
         };
     }
 
+    public DistanceInformation distanceTo(DirectedGlobalPos other) {
+        double distance = Math.sqrt(this.pos.getSquaredDistance(other.pos));
+        boolean dimChange = !this.dimension.equals(other.dimension);
+        boolean rotChange = this.rotation != other.rotation;
+
+        return new DistanceInformation(distance, dimChange, rotChange);
+    }
+
     public boolean equals(Object o) {
         if (this == o)
             return true;
