@@ -1,4 +1,4 @@
-<img src="https://github.com/amblelabs/modkit/blob/main/src/main/resources/assets/amblekit/icon.png?raw=true" width="256" height="256">
+<p align="center"><img src="https://github.com/amblelabs/modkit/blob/main/src/main/resources/assets/amblekit/icon.png?raw=true" width="256" height="256"></p>
 
 # Amble Kit Library
 ## This a libary mod that can be used for code simplifying for developing on Fabric
