@@ -19,7 +19,7 @@ import dev.amble.lib.AmbleKit;
 public class AmbleRegistries {
 
     private static AmbleRegistries INSTANCE;
-    private final List<Registry> registries = new ArrayList<>();
+    private final HashSet<Registry> registries = new HashSet<>();
     private final Set<InitType> initialized = new HashSet<>();
 
     static {
