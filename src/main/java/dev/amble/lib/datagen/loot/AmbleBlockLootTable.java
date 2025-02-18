@@ -2,6 +2,7 @@ package dev.amble.lib.datagen.loot;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Queue;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -26,18 +27,30 @@ public class AmbleBlockLootTable extends FabricBlockLootTableProvider {
     @Override
     public void generate() {
         // automatic self block drops
-        this.blockClass.forEach(clazz -> ReflectionUtil.getAnnotatedValues(clazz, Block.class, NoBlockDrop.class, true).keySet().forEach(this::process));
+        this.blockClass.forEach(clazz -> ReflectionUtil.getAnnotatedValues(clazz, Block.class, NoBlockDrop.class, true).forEach(this::process));
     }
 
-    public AmbleBlockLootTable withBlocks(Class<? extends BlockContainer>... blockClass) {
+    @SafeVarargs
+    public final AmbleBlockLootTable withBlocks(Class<? extends BlockContainer>... blockClass) {
         // add all to queue
         this.blockClass.addAll(Arrays.asList(blockClass));
 
         return this;
     }
 
-    protected void process(Block block) {
+    protected void process(Block block, Optional<NoBlockDrop> annotation) {
         this.addDrop(block);
-        this.addDropWithSilkTouch(block);
+
+
+        NoBlockDrop drop = annotation.orElse(null);
+        if (drop != null) {
+            if (drop.requireSilkTouch()) {
+                this.addDropWithSilkTouch(block);
+            }
+
+            if (drop.slabDrops()) {
+                this.slabDrops(block);
+            }
+        }
     }
 }

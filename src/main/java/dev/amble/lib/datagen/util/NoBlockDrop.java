@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface NoBlockDrop {
+    boolean requireSilkTouch() default false;
+    boolean slabDrops() default false;
 }
