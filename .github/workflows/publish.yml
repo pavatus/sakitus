@@ -1,6 +1,9 @@
-name: Publish on GitHub, Modrinth, and CurseForge
+name: Publish to Modrinth
 
-on: [ workflow_dispatch, push ]
+on: [ workflow_dispatch,
+      release:
+        types: [published]
+]
 
 env:
   JAVA_VERSION: 17
@@ -44,10 +47,10 @@ jobs:
           # curseforge-id: 856138                                             #The id of your CurseForge project
           # curseforge-token: "${{secrets.CURSEFORGE_TOKEN}}"
 
-          modrinth-id: ZMP9ZjB9                                             #The id of your modrinth project
+          modrinth-id: ZNWAUUsB                                             #The id of your modrinth project
           modrinth-token: "${{secrets.MODRINTH_TOKEN}}"
 
-          github-token: "${{secrets.GITHUB_TOKEN}}"
+#          github-token: "${{secrets.GITHUB_TOKEN}}"
 
           github-generate-changelog: true
           version-type: release
