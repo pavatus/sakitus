@@ -7,10 +7,10 @@ import java.util.function.Consumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 
 import dev.amble.lib.AmbleKit;
+import dev.amble.lib.api.KitEvents;
 
 
 // TODO: move all registries over to here
@@ -21,7 +21,7 @@ public class AmbleRegistries {
     private final Set<InitType> initialized = new HashSet<>();
 
     static {
-        ServerLifecycleEvents.SERVER_STARTING.register((server) -> {
+        KitEvents.PRE_DATAPACK_LOAD.register(() -> {
             AmbleRegistries.getInstance().subscribe(InitType.COMMON);
             AmbleRegistries.getInstance().subscribe(InitType.SERVER);
         });
