@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import dev.amble.lib.data.DirectedGlobalPos;
 import dev.amble.lib.util.ServerLifecycleHooks;
 
-@SuppressWarnings("deprecation")
 public class WorldUtil {
     private static final int SAFE_RADIUS = 3;
 
