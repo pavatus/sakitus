@@ -1,9 +1,9 @@
 name: Publish to Modrinth
 
-on: [ workflow_dispatch,
-      release:
-        types: [published]
-]
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
 
 env:
   JAVA_VERSION: 17
