@@ -25,12 +25,14 @@ public class TeleportUtil {
             teleportNonPlayer(entity, world, pos, yaw, entity.getPitch());
         });
     }
+
     private static void teleportPlayer(ServerPlayerEntity player, ServerWorld world, Vec3d pos, float yaw, float pitch) {
         player.teleport(world, pos.x, pos.y, pos.z, yaw, pitch);
         player.addExperience(0);
         player.getStatusEffects().forEach(effect -> player.networkHandler.sendPacket(new EntityStatusEffectS2CPacket(player.getId(), effect)));
         player.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player));
     }
+
     private static void teleportNonPlayer(LivingEntity entity, ServerWorld world, Vec3d pos, float yaw, float pitch) {
         if (entity.getWorld().getRegistryKey() == world.getRegistryKey()) {
             entity.refreshPositionAndAngles(pos.x, pos.y, pos.z, yaw, pitch);
