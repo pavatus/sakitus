@@ -1,6 +1,8 @@
 package dev.amble.lib.mixin.registry;
 
-import net.minecraft.registry.RegistryLoader;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -9,8 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.minecraft.registry.RegistryLoader;
 
 @Mixin(RegistryLoader.class)
 public class RegistryLoaderMixin {

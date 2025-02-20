@@ -1,9 +1,11 @@
 package dev.amble.lib.registry.builder;
 
 import com.mojang.serialization.Codec;
-import dev.amble.lib.registry.DynamicAmbleRegistry;
+
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+
+import dev.amble.lib.registry.DynamicAmbleRegistry;
 
 public class DynamicAmbleRegistryBuilder<T> {
 

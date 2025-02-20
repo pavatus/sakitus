@@ -1,6 +1,7 @@
 package dev.amble.lib.registry.builder;
 
 import com.mojang.serialization.Codec;
+
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 

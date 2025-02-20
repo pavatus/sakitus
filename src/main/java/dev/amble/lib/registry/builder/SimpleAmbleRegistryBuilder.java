@@ -1,10 +1,12 @@
 package dev.amble.lib.registry.builder;
 
 import com.mojang.serialization.Lifecycle;
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.registry.*;
+
 import dev.amble.lib.mixin.registry.RegistriesInvoker;
 import dev.amble.lib.registry.SimpleAmbleRegistry;
-import net.minecraft.registry.*;
-import org.jetbrains.annotations.Nullable;
 
 public class SimpleAmbleRegistryBuilder<T> {
 

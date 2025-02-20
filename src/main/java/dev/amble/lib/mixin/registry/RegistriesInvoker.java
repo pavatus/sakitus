@@ -1,12 +1,13 @@
 package dev.amble.lib.mixin.registry;
 
 import com.mojang.serialization.Lifecycle;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
+
 import net.minecraft.registry.MutableRegistry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(Registries.class)
 public interface RegistriesInvoker {
