@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import net.minecraft.util.Identifier;
 
 import dev.amble.lib.api.AmbleKitInitializer;
-import dev.amble.lib.register.AmbleRegistries;
 import dev.amble.lib.util.ServerLifecycleHooks;
 
 public class AmbleKit implements ModInitializer {
@@ -17,7 +16,6 @@ public class AmbleKit implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        AmbleRegistries.getInstance();
         ServerLifecycleHooks.init();
 
         FabricLoader.getInstance().invokeEntrypoints("amblekit-main", AmbleKitInitializer.class,

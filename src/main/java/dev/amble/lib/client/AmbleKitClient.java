@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import dev.amble.lib.api.AmbleKitClientInitializer;
 
 public class AmbleKitClient implements ClientModInitializer {
+
     @Override
     public void onInitializeClient() {
         FabricLoader.getInstance().invokeEntrypoints("amblekit-client", AmbleKitClientInitializer.class,
